@@ -1,5 +1,6 @@
 package com.org.users.users.controllers;
 
+import com.org.users.users.dto.ConfigurationEnvironmentCheckDto;
 import com.org.users.users.dto.CustomerDto;
 import com.org.users.users.dto.ResponseDto;
 import com.org.users.users.services.IUserService;
@@ -23,9 +24,11 @@ public class UserController {
 
     private final IUserService iUserService;
 
-    @GetMapping(value = "/index", produces = MediaType.ALL_VALUE)
+    private final ConfigurationEnvironmentCheckDto configurationEnvironmentCheckDto;
+
+    @GetMapping(value = "/test", produces = MediaType.ALL_VALUE)
     public String testApi(){
-        return "Your test is successful";
+        return "Your test is successful : " + configurationEnvironmentCheckDto.getEnvApplicationConfiguration();
     }
 
 

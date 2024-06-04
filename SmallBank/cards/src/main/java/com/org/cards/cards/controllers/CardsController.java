@@ -5,6 +5,7 @@ import com.org.cards.cards.dto.CustomerDto;
 import com.org.cards.cards.dto.ResponseDto;
 import com.org.cards.cards.entities.Card;
 import com.org.cards.cards.services.ICardsService;
+import com.org.cards.cards.dto.ConfigurationEnvironmentCheckDto;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,11 @@ public class CardsController {
 
     private final ICardsService iCardsService;
 
+    private final ConfigurationEnvironmentCheckDto configurationEnvironmentCheckDto;
+
     @GetMapping("/test")
     public ResponseEntity<String> testApi() {
-        return ResponseEntity.status(HttpStatus.OK).body("Cards test API is working fine");
+        return ResponseEntity.status(HttpStatus.OK).body("Cards test API is working fine : " + configurationEnvironmentCheckDto.getEnvApplicationConfiguration());
     }
 
     @PostMapping
