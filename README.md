@@ -1,23 +1,35 @@
 
-# There are 3 components as below
-    1) configuration Server
-    2) users 
-    3) cards
+# There are few components in SmallBank as below
+    1) rabitmq
+    2) configuration Server
+    3) users 
+    4) cards
 
     users, cards are the services which connect to configuration servers to find out any configuration changes.
 
+# Configuration properties
+    Configuraton properties of users and cards components are stored in Small-Bank-Configurations.
+    Whenever any changes are pushed to configuration files, those changes are loaded on runtime in 
+    users and cards services without any downtime.
+
+# Webhooks usage
+    Whenever changes are pushed to repository, webhook is configured in repository to send the event on /monitor API of 
+    configurations service exposed with the help of "spring-cloud-config-monitor" dependency.
+    
+    https://consolehookdeck.com website is used to for generating web hook url, which will call /monitor API of 
+    configserver service.
+
 # All the three services use Google jib to build docker image as below:
-    1) In pom.xml add the google jib plugin.
+    1) In pom.xml add the google jib plugin.  (jib works with java projects only)
     2) Add managed dependency and cloud version variable
     3) Set iamge name in the plugin.  (Example image name : kiranfegade19/configurations:1.0.0)
     4) Set packaging as jar in pom.xml
     5) Use below command to create docker image using google gib from application home directories:
-        mvn compile jib:dockerImage
+        mvn compile jib:dockerBuild
 
 # Running the images on docker:
     Once all the images are prepared, we can execute commands like below to strt the container.
 
-    
         docker run -d --name configurations-ms -p 8000:8000 kiranfegade19/configurations:1.0.0
         docker run -d --name users-ms -p 8030:8010 kiranfegade19/users:1.0.0
         docker run -d --name cards-ms -p 8040:8020 kiranfegade19/cards:1.0.0
@@ -29,4 +41,21 @@
 
     users-ms swagger : http://localhost:8030/swagger-ui/index.html
     cards-ms swagger : http://localhost:8040/swagger-ui/index.html
+
+# Test Live configuration reload
+    1) Consume /test API on both the services users and cards and check the values.
+    2) Now make some changes in the configurations present in SmallBank-Configurations directory.
+    3) Once the changes are pushed, sequesnce of events as below will be triggered:
+        a. Webhook url will call the /monitor API to inform configserver regarding changes.
+        b. As configserver receives the event on /monitor API, it reloads the configurations from the repository.
+        c. configserver sends the refresh events on rabitmq to all config clients (users, cards)
+        d. Config clients (users, cards) reads these events and update the configuration on runtime.
+
+    NOTE : 
+        1. Using webhooks, live configuration reload is automated.
+        2. Same live config could be updated by manually consuming /refresh API of the Config clients (users, cards)
+        3. hookdeck webhook gets expired after some threshold. Once expired new webhook should be updated in repository.
+
+
+
 
