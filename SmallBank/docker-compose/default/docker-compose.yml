@@ -1,0 +1,66 @@
+services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  configurations:
+    image: "kiranfegade19/configurations:1.0.0"
+    container_name: configurations-ms
+    ports:
+      - "8000:8000"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8000/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
+  users:
+    image: "kiranfegade19/users:1.0.0"
+    container_name: users-ms
+    ports:
+      - "8010:8010"
+    depends_on:
+      configurations:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "users"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+  cards:
+    image: "kiranfegade19/cards:1.0.0"
+    container_name: cards-ms
+    ports:
+      - "8020:8020"
+    depends_on:
+      configurations:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+networks:
+  bank-ms:
+    driver: "bridge"
