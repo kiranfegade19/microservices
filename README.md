@@ -27,7 +27,7 @@
     5) Use below command to create docker image using google gib from application home directories:
         mvn compile jib:dockerBuild
 
-# Running the images on docker:
+# Running the images on docker by executing command for each docker image:
     Once all the images are prepared, we can execute commands like below to strt the container.
 
         docker run -d --name configurations-ms -p 8000:8000 kiranfegade19/configurations:1.0.0
@@ -36,11 +36,22 @@
     
     These commands will start the configurations, users and cards containers.
 
+
+# Running all the images with single command using docker compose
+    After docker images are created by running jib:dockerBuild command in root directory of each serveice.
+    Go to /docker-compose/default directory and execute below command
+        docker compose up -d
+        
+        this command will start all the containers in the specific order as definced in docker-compose.yml file.
+        In our case sequece defined is:
+            rabitmq -> configserver -> users and cards services.
+
 # Accessing Swagger endpoints
     On your local system open browser and hit below URL's to access Swagger pages.
 
     users-ms swagger : http://localhost:8030/swagger-ui/index.html
     cards-ms swagger : http://localhost:8040/swagger-ui/index.html
+
 
 # Test Live configuration reload
     1) Consume /test API on both the services users and cards and check the values.
