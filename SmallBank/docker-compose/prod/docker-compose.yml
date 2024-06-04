@@ -37,7 +37,7 @@ services:
     image: "kiranfegade19/users:1.0.0"
     container_name: users-ms
     ports:
-      - "8010:8010"
+      - "8030:8010"
     depends_on:
       configurations:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
     image: "kiranfegade19/cards:1.0.0"
     container_name: cards-ms
     ports:
-      - "8020:8020"
+      - "8040:8020"
     depends_on:
       configurations:
         condition: service_healthy

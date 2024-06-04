@@ -30,6 +30,3 @@ management:
     web:
       exposure:
         include: "*"
-
-data:
-  envApplicationConfiguration: "DEFAULT-USERS Profile with Docker and K8s"
