@@ -11,8 +11,8 @@ spring:
         # search-locations: "classpath:/config"
         # search-locations: "file:///Users//eazybytes//Documents//config"
         git:
-          #uri: "https://github.com/kiranfegade19/microservices/tree/c4e8df3a1a5080255af9fc69c337930361f02f36/SmallBank-Configurations"
-          search-paths: "https://github.com/kiranfegade19/microservices/tree/c4e8df3a1a5080255af9fc69c337930361f02f36/SmallBank-Configurations"
+          uri: "https://github.com/kiranfegade19/microservices.git"
+          search-paths: "SmallBank-Configurations"
           default-label: main
           timeout: 5
           clone-on-start: true
