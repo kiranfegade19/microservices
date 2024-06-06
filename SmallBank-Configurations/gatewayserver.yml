@@ -1,0 +1,13 @@
+
+server:
+  port: 8002
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: "http://eureka-servicediscovery:8001/eureka/"
+
