@@ -21,8 +21,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
 
         serverHttpSecurity.authorizeExchange(exchanges -> exchanges.pathMatchers(HttpMethod.GET).permitAll()
-                .pathMatchers("/smallbank/*/swagger-ui/**").permitAll()
-                .pathMatchers("/smallbdank/users/**").hasRole("USERS")
+                .pathMatchers("/smallbank/users/**").hasRole("USERS")
                 .pathMatchers("/smallbank/cards/**").hasRole("CARDS"))
                 .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec
                         .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));

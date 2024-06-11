@@ -20,5 +20,6 @@ public class Customer extends BaseEntity {
     private String emailId;
     @Column(name = "mobile_number")
     private String mobileNumber;
-
+    @Column(name = "communication_sw")
+    private Boolean communicationSw;
 }

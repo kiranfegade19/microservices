@@ -1,6 +1,7 @@
 package com.org.users.users.services.impl;
 
 import com.org.users.users.dto.CustomerDto;
+import com.org.users.users.dto.UserMsgDto;
 import com.org.users.users.entity.Customer;
 import com.org.users.users.exceptions.CustomerAlreadyExistsException;
 import com.org.users.users.exceptions.ResourceNotFoundException;
@@ -8,6 +9,9 @@ import com.org.users.users.mapper.CustomerMapper;
 import com.org.users.users.repositories.UserRepository;
 import com.org.users.users.services.IUserService;
 import lombok.AllArgsConstructor;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,8 +20,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements IUserService {
 
-    private final UserRepository userRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    private final UserRepository userRepository;
+    private final StreamBridge streamBridge;
 
     @Override
     public void registerUser(CustomerDto customerDto) {
@@ -30,6 +36,16 @@ public class UserServiceImpl implements IUserService {
         }
 
         Customer savedCustomer = userRepository.save(customer);
+        sendCommunication(savedCustomer);
+
+    }
+
+    private void sendCommunication(Customer savedCustomer) {
+        var userMsgDto = new UserMsgDto(savedCustomer.getCustomerId(), savedCustomer.getName(),
+                savedCustomer.getEmailId(), savedCustomer.getMobileNumber());
+        logger.info("Sending communication request for the details: {}", userMsgDto);
+        var result = streamBridge.send("sendCommunication-out-0", userMsgDto);
+        logger.info("Is the communication request successfully triggered ? {}", result);
 
     }
 
@@ -70,4 +86,21 @@ public class UserServiceImpl implements IUserService {
         userRepository.deleteByCustomerId(customer.getCustomerId());
         return true;
     }
+
+    @Override
+    public boolean updateCommunicationStatus(Long userId) {
+        boolean isUpdated = false;
+        if(userId != null) {
+            Customer customer = userRepository.findById(userId).orElseThrow(
+                    () -> new ResourceNotFoundException("User", "userId", userId.toString())
+            );
+
+            customer.setCommunicationSw(true);
+            userRepository.save(customer);
+            isUpdated = true;
+        }
+        return isUpdated;
+    }
+
+
 }

@@ -24,6 +24,45 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
+    function:
+      definition: updateCommunication
+    stream:
+      default-binder: kafka
+      bindings:
+        updateCommunication-in-0:
+          destination: communication-sent
+          group: ${spring.application.name}
+          binder: kafka
+        sendCommunication-out-0:
+          destination: send-communication
+          binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+
+
+#      binders:
+#        kafka:
+#          type: kafka
+#          environment:
+#            spring:
+#              cloud:
+#                stream:
+#                  kafka:
+#                    binder:
+#                      brokers:
+#                        - localhost:9092
+#        rabbit:
+#          type: rabbit
+#          environment:
+#            spring:
+#              cloud:
+#                stream:
+#                  rabbit:
+#                    binder:
+#                      brokers:
+#                        - localhost:5672
 
 springdoc:
   api-docs:

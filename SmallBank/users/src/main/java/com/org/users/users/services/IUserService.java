@@ -12,4 +12,6 @@ public interface IUserService {
 
     public boolean deleteAccount(String mobileNumber);
 
+    boolean updateCommunicationStatus(Long userId);
+
 }
