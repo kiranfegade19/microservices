@@ -1,14 +1,20 @@
 
 # There are few components in SmallBank as below
-    1) rabitmq
-    2) configuration Server
-    3) users 
-    4) cards
+    1) Rabitmq
+    2) Configuration Server
+    3) Eureka Server
+    4) Application Gateway
+    5) Keycloak
+    6) users  
+    7) cards
 
-    users, cards are the services which connect to configuration servers to find out any configuration changes.
+    users, cards are the services which are notified by configuration server to find out any configuration changes on runtime using rabbitmq.
+    Service discovery is handled by Eureka server.
+    Keycloak is the authorization server for providing OAuth2 security.
+    Gateway server acts as single entrypoint and also acts as resource for OAuth security.
 
 # Configuration properties
-    Configuraton properties of users and cards components are stored in Small-Bank-Configurations.
+    Configuraton properties of components are stored in Small-Bank-Configurations.
     Whenever any changes are pushed to configuration files, those changes are loaded on runtime in 
     users and cards services without any downtime.
 
@@ -19,7 +25,7 @@
     https://consolehookdeck.com website is used to for generating web hook url, which will call /monitor API of 
     configserver service.
 
-# All the three services use Google jib to build docker image as below:
+# All the services use Google jib to build docker image as below:
     1) In pom.xml add the google jib plugin.  (jib works with java projects only)
     2) Add managed dependency and cloud version variable
     3) Set iamge name in the plugin.  (Example image name : kiranfegade19/configurations:1.0.0)
@@ -43,14 +49,6 @@
         docker compose up -d
         
         this command will start all the containers in the specific order as definced in docker-compose.yml file.
-        In our case sequece defined is:
-            rabitmq -> configserver -> users and cards services.
-
-# Accessing Swagger endpoints
-    On your local system open browser and hit below URL's to access Swagger pages.
-
-    users-ms swagger : http://localhost:8030/swagger-ui/index.html
-    cards-ms swagger : http://localhost:8040/swagger-ui/index.html
 
 
 # Test Live configuration reload
@@ -65,7 +63,8 @@
     NOTE : 
         1. Using webhooks, live configuration reload is automated.
         2. Same live config could be updated by manually consuming /refresh API of the Config clients (users, cards)
-        3. hookdeck webhook gets expired after some threshold. Once expired new webhook should be updated in repository.
+        3. hookdeck free webhook might expire after some threshold. Once expired new webhook should be updated in repository.
+        4. Only user who is registered in Keycloak and have USERS and CARDS role can execute the users and cards API.
 
 
 

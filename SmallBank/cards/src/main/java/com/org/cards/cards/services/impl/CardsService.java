@@ -11,8 +11,12 @@ import com.org.cards.cards.services.ICardsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.org.cards.cards.mappers.CardMapper.mapToCard;
 
@@ -56,21 +60,23 @@ public class CardsService implements ICardsService {
         return true;
     }
 
+//    @Override
+//    public List<Card> fetchCards(String mobileNumber) {
+//
+//        Optional<Card> card = cardsRepository.findByMobileNumber(mobileNumber);
+//
+//        return card.map(List::of).orElseGet(List::of);
+//
+//    }
+
     @Override
-    public List<Card> fetchCards(String mobileNumber) {
+    public List<Card> fetchCard(String mobileNumber) {
 
-        Optional<Card> card = cardsRepository.findByMobileNumber(mobileNumber);
+        Card card = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException( String.format("Card with mobile number {} not found", mobileNumber).toString() )
+        );
 
-        return card.map(List::of).orElseGet(List::of);
-
-    }
-
-    @Override
-    public Optional<Card> fetchCard(Long cardId) {
-
-        Optional<Card> card = cardsRepository.findById(cardId);
-
-        return card;
+        return List.of(card);
 
     }
 

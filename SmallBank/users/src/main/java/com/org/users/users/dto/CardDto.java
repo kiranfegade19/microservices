@@ -1,7 +1,6 @@
-package com.org.cards.cards.dto;
+package com.org.users.users.dto;
 
-import com.org.cards.cards.enums.CardType;
-import lombok.Builder;
+import com.org.users.users.enums.CardType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

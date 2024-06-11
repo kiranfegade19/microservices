@@ -15,9 +15,9 @@ public interface ICardsService {
 
     public boolean updateCard(CardDto cardDto);
 
-    public List<Card> fetchCards(String mobileNumber);
+//    public List<Card> fetchCards(String mobileNumber);
 
-    public Optional<Card> fetchCard(Long cardId);
+    public List<Card> fetchCard(String mobileNumber);
 
     public boolean deleteCards(CustomerDto customerDto);
 

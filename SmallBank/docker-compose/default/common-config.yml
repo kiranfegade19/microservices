@@ -12,6 +12,9 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-1.32.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+      OTEL_METRICS_EXPORTER: none
 
   microservice-configserver-config:
     extends:
@@ -19,3 +22,22 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configurations:8000/
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-configserver-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-servicediscovery:8001/eureka/
+
+  microservice-db-config:
+    extends:
+      service: network-deploy-service
+    image: mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: root

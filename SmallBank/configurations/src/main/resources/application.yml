@@ -37,9 +37,27 @@ management:
     health:
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 encrypt:
   key: "45D81EC1EF61DF9AD8D3E5BB397F9"
 
 server:
   port: 8000
+
+info:
+  app:
+    name: users
+    description: "SmallBank configuration management service"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      org:
+        configserver:
+          configurations: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

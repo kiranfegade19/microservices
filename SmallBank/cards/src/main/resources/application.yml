@@ -5,30 +5,75 @@ spring:
   application:
     name: cards
   datasource:
-    url: jdbc:h2:mem:cardsdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-  h2:
-    console:
-      enabled: true
+    url: jdbc:mysql://localhost:3307/cardsdb
+    username: root
+    password: root
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
     show-sql: true
+  sql:
+    init:
+      mode: always
   config:
-    import: "optional:configserver:http://localhost:8000/"
+    import: "optional:configserver:http://configurations:8000/"
   rabbitmq:
     host: "localhost"
     port: 5672
     username: "guest"
     password: "guest"
 
+springdoc:
+  api-docs:
+    path: "/cards/v3/api-docs/swagger-config"
+
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
+endpoint:
+  shutdown:
+    enabled: true
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: "http://eureka-servicediscovery:8001/eureka/"
+
+
+info:
+  app:
+    name: cards
+    description: "SmallBank cards service"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      org:
+        cards:
+          cards: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
