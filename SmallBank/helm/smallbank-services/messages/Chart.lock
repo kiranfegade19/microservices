@@ -1,0 +1,6 @@
+dependencies:
+- name: smallbank-helmchart
+  repository: file://../../smallbank-helmchart
+  version: 0.1.0
+digest: sha256:696eb287f47bcb5811bb0cc78265c85755407e07c1c6d23143e624798f1b69be
+generated: "2024-06-13T21:27:45.635888+05:30"

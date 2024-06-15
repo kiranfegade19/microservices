@@ -4,12 +4,19 @@ server:
 spring:
   application:
     name: users
+
+#  datasource:
+#    url: jdbc:mysql://mysql.default.svc.cluster.local:3306/usersdb
+#    username: root
+#    password: root
+
   datasource:
-    url: jdbc:mysql://localhost:3306/usersdb
-    username: root
-    password: root
+    url: jdbc:h2:mem:usersdb
+    username: sa
+    password: ""
   jpa:
     show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
   sql:
     init:
       mode: always
@@ -18,8 +25,8 @@ spring:
   rabbitmq:
     host: "localhost"
     port: 5672
-    username: "guest"
-    password: "guest"
+    username: "user"
+    password: "p7ep6mRggqWM7xC8"
   cloud:
     openfeign:
       circuitbreaker:

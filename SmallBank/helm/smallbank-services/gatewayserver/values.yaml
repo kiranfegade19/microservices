@@ -1,0 +1,27 @@
+
+
+deploymentName: gatewayserver-deployment
+serviceName: gatewayserver
+appLabel: gatewayserver
+appName: gatewayserver
+
+replicaCount: 1
+
+image:
+  repository: kiranfegade19/gatewayserver
+  tag: 1.0.0
+
+containerPort: 8002
+
+service:
+  type: LoadBalancer
+  port: 8002
+  targetPort: 8002
+
+appname_enabled: true
+profile_enabled: true
+config_enabled: true
+eureka_enabled: true
+resourceserver_enabled: true
+otel_enabled: true
+kafka_enabled: false

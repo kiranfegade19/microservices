@@ -7,6 +7,10 @@
     5) Keycloak
     6) users  
     7) cards
+    8) Prometheus
+    9) Loki
+    10) Tempo
+    11) Grafana
 
     users, cards are the services which are notified by configuration server to find out any configuration changes on runtime using rabbitmq.
     Service discovery is handled by Eureka server.
@@ -67,5 +71,23 @@
         4. Only user who is registered in Keycloak and have USERS and CARDS role can execute the users and cards API.
 
 
+# URL's
+    Prometheus:             http://localhost:9090/
+    Grafana:                http://localhost:3000/
+    Keycloak:               http://localhost/
+        
+    Users-test              http://localhost:8002/smallbank/users/api/v1/user/test
+    Users-Post              http://localhost:8002/smallbank/users/api/v1/user                               (OAuth2 Authenticated)
+    Users-Fetch             http://localhost:8002/smallbank/users/api/v1/user?mobileNumber=0123456789
+    Users-CB-Events         http://localhost:8002/users/actuator/circuitbreakerevents
+    Users-CB-Status         http://localhost:8002/users/actuator/circuitbreakers
+        
+    Cards-test              http://localhost:8002/smallbank/cards/api/v1/cards/test
+    Cards-Post              http://localhost:8002/smallbank/cards/api/v1/cards                              (OAuth2 Authenticated)
+    Cards-Fetch             http://localhost:8002/smallbank/cards/api/v1/cards?mobileNumber=0123456789
+    Cards-Delete            http://localhost:8002/smallbank/cards/api/v1/cards?cardId=1
+    
+    GatewayServer-Routes    http://localhost:8002/actuator/gateway/routes
+    
 
 

@@ -1,0 +1,10 @@
+global:
+  configMapName: smallbankqa-configmap
+  activeProfile: qa
+  configServerURL: configserver:http://configurations:8000
+  eurekaServerURL: http://eureka-servicediscovery:8001/eureka/
+  keyCloakURL: http://keycloak.default.svc.cluster.local:80/realms/master/protocol/openid-connect/certs
+  openTelemetryJavaAgent: "-javaagent:/app/libs/opentelemetry-javaagent-1.32.0.jar"
+  otelExporterEndpoint: http://tempo-grafana-tempo-distributor:4317
+  otelMetricsExporter: none
+  kafkaBrokerURL: kafka-controller-0.kafka-controller-headless.default.svc.cluster.local:9092

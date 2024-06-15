@@ -1,0 +1,24 @@
+dependencies:
+- name: smallbank-helmchart
+  repository: file://../../smallbank-helmchart
+  version: 0.1.0
+- name: configurations
+  repository: file://../../smallbank-services/configurations
+  version: 0.1.0
+- name: eureka-servicediscovery
+  repository: file://../../smallbank-services/eureka-servicediscovery
+  version: 0.1.0
+- name: users
+  repository: file://../../smallbank-services/users
+  version: 0.1.0
+- name: cards
+  repository: file://../../smallbank-services/cards
+  version: 0.1.0
+- name: gatewayserver
+  repository: file://../../smallbank-services/gatewayserver
+  version: 0.1.0
+- name: messages
+  repository: file://../../smallbank-services/messages
+  version: 0.1.0
+digest: sha256:0af3ffa8a91fe73dd8daecbdf90ed9b5496f5f7f6a424a5c2b60b6e04e861674
+generated: "2024-06-13T23:45:57.2873+05:30"

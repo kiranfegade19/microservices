@@ -1,0 +1,27 @@
+
+
+deploymentName: eureka-servicediscovery-deployment
+serviceName: eureka-servicediscovery
+appLabel: eureka-servicediscovery
+appName: eureka-servicediscovery
+
+replicaCount: 1
+
+image:
+  repository: kiranfegade19/eureka-servicediscovery
+  tag: 1.0.0
+
+containerPort: 8001
+
+service:
+  type: ClusterIP
+  port: 8001
+  targetPort: 8001
+
+appname_enabled: true
+profile_enabled: false
+config_enabled: true
+eureka_enabled: false
+resourceserver_enabled: false
+otel_enabled: true
+kafka_enabled: false
