@@ -1,6 +1,6 @@
-package com.org.users.users.exceptions;
+package com.org.cards.cards.exceptions;
 
-import com.org.users.users.dto.ErrorResponseDto;
+import com.org.cards.cards.dto.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
-public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
                                                                   WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
-                HttpStatus.INTERNAL_SERVER_ERROR,
+                HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                 exception.getMessage(),
                 LocalDateTime.now()
         );
@@ -52,19 +52,19 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
                                                                                  WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND.toString(),
                 exception.getMessage(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CustomerAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException exception,
+    @ExceptionHandler(CardAlreadyExists.class)
+    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(CardAlreadyExists exception,
                                                                                  WebRequest webRequest){
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.toString(),
                 exception.getMessage(),
                 LocalDateTime.now()
         );

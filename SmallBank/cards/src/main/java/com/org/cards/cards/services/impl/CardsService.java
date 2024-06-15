@@ -8,6 +8,7 @@ import com.org.cards.cards.exceptions.CardAlreadyExists;
 import com.org.cards.cards.exceptions.ResourceNotFoundException;
 import com.org.cards.cards.repositories.CardsRepository;
 import com.org.cards.cards.services.ICardsService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,7 @@ public class CardsService implements ICardsService {
 
     }
 
+    @Transactional
     @Override
     public boolean deleteCards(CustomerDto customerDto) {
 

@@ -8,6 +8,7 @@ import com.org.users.users.exceptions.ResourceNotFoundException;
 import com.org.users.users.mapper.CustomerMapper;
 import com.org.users.users.repositories.UserRepository;
 import com.org.users.users.services.IUserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -76,6 +77,7 @@ public class UserServiceImpl implements IUserService {
         return isUpdated;
     }
 
+    @Transactional
     @Override
     public boolean deleteAccount(String mobileNumber) {
 
