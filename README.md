@@ -40,19 +40,28 @@
 # Running the images on docker by executing command for each docker image:
     Once all the images are prepared, we can execute commands like below to strt the container.
 
-        docker run -d --name configurations-ms -p 8000:8000 kiranfegade19/configurations:1.0.0
-        docker run -d --name users-ms -p 8030:8010 kiranfegade19/users:1.0.0
-        docker run -d --name cards-ms -p 8040:8020 kiranfegade19/cards:1.0.0
+        1) go to each helm chart folder and execute below command (Helm chart directories : kafka, rabbitmq, keycloak, kube-prometheus, grafana-loki,
+            grafana-tempo, grafana, environments/dev-env, smallbank-services/configurations, smallbank-services/eureka-servicediscovery,
+            smallbank-services/gatewayserver, smallbank-services/users, smallbank-services/cards, smallbank-services/messages )
+            
+            helm dependencies build
+
+        2) From helm directory execute below commands one after another to git the required modules up in cluster
+            helm install kafka kafka                        # Starts Kafka
+            helm install rabbitmq rabbitmq                  # Starts rabbitmq
+            helm install install keycloak keycloak          # Starts keycloak
+            helm install prometheus kube-prometheus         # Starts Prometheus
+            helm install loki grafana-loki                  # Starts Loki
+            helm install tempo grafana-tempo                # Starts Tempo
+            helm install grafana grafana                    # Starts grafana
+
+        3) Navigate to environments directory
+            
+            helm install smallbank dev-env                  # Starts All Smallbank services in single command
     
-    These commands will start the configurations, users and cards containers.
-
-
-# Running all the images with single command using docker compose
-    After docker images are created by running jib:dockerBuild command in root directory of each serveice.
-    Go to /docker-compose/default directory and execute below command
-        docker compose up -d
-        
-        this command will start all the containers in the specific order as definced in docker-compose.yml file.
+    Commands ran in step 1 will build all the modules after downloading all the required dependencies.
+    Commands in step 2 will start all the supporting applications
+    Commands in step 3 willl start all the smallbank applications
 
 
 # Test Live configuration reload
