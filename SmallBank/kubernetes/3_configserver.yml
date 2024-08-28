@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configurations-deployment
+  labels:
+    app: configurations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: configurations
+  template:
+    metadata:
+      labels:
+        app: configurations
+    spec:
+      containers:
+      - name: configurations
+        image: kiranfegade19/configurations:1.0.0
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: configurations
+spec:
+  selector:
+    app: configurations
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
