@@ -1,0 +1,7 @@
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/GatewayserverApplication.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/config/KeycloakRoleConverter.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/config/SecurityConfig.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/controllers/FallbackController.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/filters/FilterUtility.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/filters/RequestTraceFilter.java
+/Users/kiranfegade/microservices/microservices/SmallBank/gatewayserver/src/main/java/com/org/gatewayserver/gatewayserver/filters/ResponseTraceFilter.java

@@ -1,0 +1,10 @@
+###################################
+Wed May 28 22:15:12 IST 2025
+NAME: smallbank-qa-env
+LAST DEPLOYED: Wed May 28 22:15:12 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NAME            	NAMESPACE	REVISION	UPDATED                           	STATUS  	CHART       	APP VERSION
+smallbank-qa-env	default  	1       	2025-05-28 22:15:12.9898 +0530 IST	deployed	qa-env-0.1.0	1.0.0      

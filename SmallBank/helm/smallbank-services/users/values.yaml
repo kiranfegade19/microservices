@@ -1,0 +1,27 @@
+
+
+deploymentName: users-deployment
+serviceName: users
+appLabel: users
+appName: users
+
+replicaCount: 1
+
+image:
+  repository: kiranfegade19/users
+  tag: 1.0.0
+
+containerPort: 8010
+
+service:
+  type: ClusterIP
+  port: 8010
+  targetPort: 8010
+
+appname_enabled: true
+profile_enabled: true
+config_enabled: true
+eureka_enabled: true
+resourceserver_enabled: false
+otel_enabled: true
+kafka_enabled: true

@@ -1,17 +1,22 @@
 
 # There are few components in SmallBank as below
-    1) Rabitmq
-    2) Configuration Server
-    3) Eureka Server
-    4) Application Gateway
-    5) Keycloak
-    6) users  
-    7) cards
-    8) Prometheus
-    9) Loki
-    10) Tempo
-    11) Grafana
+    HelmChart Projects   (/microservices/SmallBank/helm/side-car-charts/)
+        1) Rabitmq
+        2) Keycloak
+        3) Prometheus
+        4) Loki
+        5) Tempo
+        6) Grafana
+        7) Jenkins
+        8) Kafka
 
+    Custom Projects      (/microservices/SmallBank/)
+        1) Configuration Server
+        2) Eureka Server
+        3) Application Gateway
+        4) users  
+        5) cards
+    
     users, cards are the services which are notified by configuration server to find out any configuration changes on runtime using rabbitmq.
     Service discovery is handled by Eureka server.
     Keycloak is the authorization server for providing OAuth2 security.
@@ -36,17 +41,25 @@
     4) Set packaging as jar in pom.xml
     5) Use below command to create docker image using google gib from application home directories:
         mvn compile jib:dockerBuild
+        docker push kiranfegade19/cards:1.0.0
 
-# Running the images on docker by executing command for each docker image:
-    Once all the images are prepared, we can execute commands like below to strt the container.
+# Running the HelmChart components:
+    Once all the images are prepared, we can execute commands like below (using Manual or automated steps) to start the container.
 
-        1) go to each helm chart folder and execute below command (Helm chart directories : kafka, rabbitmq, keycloak, kube-prometheus, grafana-loki,
-            grafana-tempo, grafana, environments/dev-env, smallbank-services/configurations, smallbank-services/eureka-servicediscovery,
-            smallbank-services/gatewayserver, smallbank-services/users, smallbank-services/cards, smallbank-services/messages )
+### Manual Steps
+        1) Go to each path and each directory as mentioned below:
+            Path 1: /microservices/SmallBank/helm/side-car-charts/
+                rabitmq, keycloak, kube-prometheus, grafana-loki, grafana-tempo, grafana, jenkins, kafka
+            Path 2: /microservices/SmallBank/helm/smallbank-services/
+                cards, configurations, eureka-servicediscovery, gatewayserver, messages, users
+            Path 3: /microservices/SmallBank/helm/smallbank-helmchart/
+            Path 4: /microservices/SmallBank/helm/environments/
+                dev-env
             
+        Execute the below command
             helm dependencies build
 
-        2) From helm directory execute below commands one after another to git the required modules up in cluster
+        2) From side-car-charts directory (/microservices/SmallBank/helm/side-car-charts/) execute below commands one after another to start the required modules in cluster
             helm install kafka kafka                        # Starts Kafka
             helm install rabbitmq rabbitmq                  # Starts rabbitmq
             helm install install keycloak keycloak          # Starts keycloak
@@ -54,15 +67,22 @@
             helm install loki grafana-loki                  # Starts Loki
             helm install tempo grafana-tempo                # Starts Tempo
             helm install grafana grafana                    # Starts grafana
+            helm install jenkins jenkins                    # Starts jenkins
 
-        3) Navigate to environments directory
+        3) Navigate to environments directory (/microservices/SmallBank/helm/environments/) and execute below command to start custome applications with dev environment:
             
-            helm install smallbank dev-env                  # Starts All Smallbank services in single command
+            helm install smallbank-dev-env dev-env                  # Starts All Smallbank services in single command
     
     Commands ran in step 1 will build all the modules after downloading all the required dependencies.
     Commands in step 2 will start all the supporting applications
-    Commands in step 3 willl start all the smallbank applications
+    Commands in step 3 willl start all the smallbank applications in dev envoronment.
 
+### Automated Steps
+    1) Go to starters directory (/microservices/SmallBank/helm/side-car-charts/) and execute below sh script:
+        ./startAll.sh
+
+    2) Go to environments directory (/microservices/SmallBank/helm/environments/) and execute below sh script:
+        ./startSmallbank.sh
 
 # Test Live configuration reload
     1) Consume /test API on both the services users and cards and check the values.
