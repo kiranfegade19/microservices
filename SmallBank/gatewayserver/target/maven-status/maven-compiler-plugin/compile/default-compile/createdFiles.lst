@@ -1,0 +1,7 @@
+com/org/gatewayserver/gatewayserver/GatewayserverApplication.class
+com/org/gatewayserver/gatewayserver/filters/FilterUtility.class
+com/org/gatewayserver/gatewayserver/filters/ResponseTraceFilter.class
+com/org/gatewayserver/gatewayserver/controllers/FallbackController.class
+com/org/gatewayserver/gatewayserver/config/KeycloakRoleConverter.class
+com/org/gatewayserver/gatewayserver/filters/RequestTraceFilter.class
+com/org/gatewayserver/gatewayserver/config/SecurityConfig.class
