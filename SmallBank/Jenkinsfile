@@ -13,13 +13,13 @@ pipeline {
     }
     stages {
 
-    stage('Display JDK Path') {
-                steps {
-                    script {
-                        echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
-                    }
-                }
-            }
+//     stage('Display JDK Path') {
+//                 steps {
+//                     script {
+//                         echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
+//                     }
+//                 }
+//             }
 
         stage('Build and Push Docker Images of Springboot Applications') {
             steps {
@@ -31,6 +31,7 @@ pipeline {
                     apps.each { app ->
                         dir(app) {
                             // Execute commands within the application's directory
+                            echo "Building ${app} now"
                             sh 'mvn clean install'
                             sh 'mvn compile jib:dockerBuild'
                             sh 'docker push yourusername/${app}:1.0.0'
@@ -45,13 +46,18 @@ pipeline {
             steps {
                 script {
 
+                    echo "Path-1: $PWD"
+
                     sh 'cd ./helm/environment/${ENV}'
+                    echo "Path-2: $PWD"
                     sh 'helm dependencies build'
 
                     sh 'cd ../../side-car-charts/starters/'
+                    echo "Path-3: $PWD"
                     sh 'startAll.sh'
 
                     sh 'cd ../../environment/'
+                    echo "Path-4: $PWD"
                     sh 'helm install smallbank-${ENV} ${ENV}'
                 }
             }
