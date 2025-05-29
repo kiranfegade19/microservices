@@ -10,7 +10,8 @@ pipeline {
         DOCKER_IMAGE = "yourusername/${APP}:${BUILD_NUMBER}"
         HELM_RELEASE = "${APP}-release"
         JAVA_HOME = "/bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/"
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        env.JAVA_HOME = "/bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/"
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
         ENV = "${ENV}"
     }
     stages {
