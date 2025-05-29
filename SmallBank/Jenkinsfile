@@ -1,5 +1,11 @@
 pipeline {
     agent any
+
+    tools {
+        maven 'Maven 3.9.9'  // Referencing Maven tool
+        jdk 'JDK 17'        // Referencing JDK 17
+    }
+
     environment {
         DOCKER_IMAGE = "yourusername/${APP}:${BUILD_NUMBER}"
         HELM_RELEASE = "${APP}-release"
@@ -31,13 +37,13 @@ pipeline {
                 script {
 
                     sh 'cd ./helm/environment/${ENV}'
-                    helm dependencies build
+                    sh 'helm dependencies build'
 
                     sh 'cd ../../side-car-charts/starters/'
                     sh 'startAll.sh'
 
                     sh 'cd ../../environment/'
-                    helm install smallbank-${ENV} ${ENV}
+                    sh 'helm install smallbank-${ENV} ${ENV}'
                 }
             }
         }
