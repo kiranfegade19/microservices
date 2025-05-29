@@ -1,7 +1,5 @@
 #!/bin/bash
 
-./startJenkins.sh > ../logs/jenkins.logs
-
 ./startPrometheus.sh > ../logs/prometheus.logs
 
 ./startTempo.sh > ../logs/tempo.logs

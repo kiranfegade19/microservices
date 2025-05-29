@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = "yourusername/${APP}:${BUILD_NUMBER}"
+        HELM_RELEASE = "${APP}-release"
+        ENV = "${ENV}"
+    }
+    stages {
+        stage('Build and Push Docker Images of Springboot Applications') {
+            steps {
+                script {
+                // Define the list of application directories
+                    def apps = ['cards', 'configurations', 'eureka-servicediscovery', 'gatewayserver', 'messages', 'users']
+
+                    // Iterate over each application directory
+                    apps.each { app ->
+                        dir(app) {
+                            // Execute commands within the application's directory
+                            sh 'mvn clean install'
+                            sh 'mvn compile jib:dockerBuild'
+                            sh 'docker push yourusername/${app}:1.0.0'
+//                             sh 'helm dependency build ./helm'
+//                             sh 'helm upgrade --install ${app}-release ./helm --set image.tag=1.0.0'
+                        }
+                    }
+                }
+            }
+        }
+        stage('Build Helm Charts for all applications') {
+            steps {
+                script {
+
+                    cd ./helm/environment/${ENV}
+                    helm dependencies build
+
+                    cd ../../side-car-charts/starters/
+                    sh startAll.sh
+
+                    cd ../../environment/
+                    helm install smallbank-${ENV} ${ENV}
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-!#bin/bash
+#!/bin/bash
 
 kubectl apply -f 0_userfordashboard.yaml
 
