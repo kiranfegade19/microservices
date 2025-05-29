@@ -16,7 +16,7 @@ pipeline {
     stage('Display JDK Path') {
                 steps {
                     script {
-                        echo "JDK Path: ${tool name: 'JDK 17', type: 'JDK'}"
+                        echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
                     }
                 }
             }
