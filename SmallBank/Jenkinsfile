@@ -16,7 +16,7 @@ pipeline {
     stage('Display JDK Path') {
                 steps {
                     script {
-                        echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
+                        //echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
                         sh 'ls -ltr /bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk'
                     }
                 }
