@@ -9,6 +9,8 @@ pipeline {
     environment {
         DOCKER_IMAGE = "yourusername/${APP}:${BUILD_NUMBER}"
         HELM_RELEASE = "${APP}-release"
+        JAVA_HOME = "/bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
         ENV = "${ENV}"
     }
     stages {
@@ -18,6 +20,8 @@ pipeline {
                     script {
                         //echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
                         sh 'ls -ltr /bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/'
+                        echo "JAVA_HOME is set to ${env.JAVA_HOME}"
+                        sh '${env.JAVA_HOME}/bin/java -version'
                     }
                 }
             }
