@@ -12,6 +12,15 @@ pipeline {
         ENV = "${ENV}"
     }
     stages {
+
+    stage('Display JDK Path') {
+                steps {
+                    script {
+                        echo "JDK Path: ${tool name: 'JDK 17', type: 'JDK'}"
+                    }
+                }
+            }
+
         stage('Build and Push Docker Images of Springboot Applications') {
             steps {
                 script {
