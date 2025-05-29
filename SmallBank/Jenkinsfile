@@ -30,13 +30,13 @@ pipeline {
             steps {
                 script {
 
-                    cd ./helm/environment/${ENV}
+                    sh 'cd ./helm/environment/${ENV}'
                     helm dependencies build
 
-                    cd ../../side-car-charts/starters/
-                    sh startAll.sh
+                    sh 'cd ../../side-car-charts/starters/'
+                    sh 'startAll.sh'
 
-                    cd ../../environment/
+                    sh 'cd ../../environment/'
                     helm install smallbank-${ENV} ${ENV}
                 }
             }
