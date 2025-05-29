@@ -21,7 +21,8 @@ pipeline {
                         //echo "JDK Path: ${tool name: 'jdk-17.0.14.jdk', type: 'JDK'}"
                         sh 'ls -ltr /bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/bin'
                         echo "JAVA_HOME is set to ${JAVA_HOME}"
-                        sh '${JAVA_HOME}/bin/java -version'
+                        sh '/bitnami/jenkins/home/tools/hudson.model.JDK/jdk-17.0.14.jdk/openlogic-openjdk-17.0.14+7-linux-x64/bin/java -version'
+                        sh 'sudo ${JAVA_HOME}/bin/java -version'
                     }
                 }
             }
